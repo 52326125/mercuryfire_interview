@@ -87,13 +87,16 @@ const onSubmit = async () => {
     ageRef.value.validate();
     if (nameRef.value.hasError || ageRef.value.hasError) throw Error();
 
-    const params: CreateUserPayload | UpdateUserPayload = {
+    const params: CreateUserPayload = {
       name: form.value.name!,
       age: Number(form.value.age!),
     };
     console.log(params);
-    if (isEditMode.value) {
-      await updateUser(params);
+    if (isEditMode.value && user.value) {
+      await updateUser({
+        ...params,
+        id: user.value.id,
+      });
     } else {
       await createUser(params);
     }
@@ -117,6 +120,9 @@ const initUserForm = () => {
     console.log(user.value);
     form.value.name = user.value?.name;
     form.value.age = user.value?.age.toString();
+  } else {
+    form.value.name = '';
+    form.value.age = '';
   }
 };
 

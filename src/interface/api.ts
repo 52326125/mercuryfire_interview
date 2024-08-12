@@ -9,8 +9,8 @@ export interface CreateUserPayload {
   age: number;
 }
 
-export type UpdateUserPayload = CreateUserPayload;
-
 export type IdPayload = {
   id: string;
 };
+
+export type UpdateUserPayload = CreateUserPayload & IdPayload;
